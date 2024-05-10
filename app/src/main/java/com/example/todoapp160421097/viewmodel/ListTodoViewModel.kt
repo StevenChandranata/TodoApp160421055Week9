@@ -22,17 +22,14 @@ class ListTodoViewModel(application: Application)
     override val coroutineContext: CoroutineContext
         get() = job + Dispatchers.IO
     fun refresh() {
-        // Update loading state using postValue to ensure it's on the main thread
         loadingLD.postValue(true)
         todoLoadErrorLD.postValue(false)
 
         launch {
             val db = TodoDatabase.buildDatabase(getApplication())
 
-            // Update the todoLD using postValue to ensure it's on the main thread
             todoLD.postValue(db.todoDao().selectAllTodo())
 
-            // Update loading state using postValue to ensure it's on the main thread
             loadingLD.postValue(false)
         }
     }
@@ -41,10 +38,8 @@ class ListTodoViewModel(application: Application)
         launch {
             val db = TodoDatabase.buildDatabase(getApplication())
 
-            // Delete the task from the database
             db.todoDao().deleteTodo(todo)
 
-            // Update the todoLD using postValue to ensure it's on the main thread
             todoLD.postValue(db.todoDao().selectAllTodo())
         }
     }

@@ -17,20 +17,16 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        // Obtain the NavHostFragment and NavController
         val navHostFragment = supportFragmentManager.findFragmentById(R.id.fragmentHost) as NavHostFragment
         val navController = navHostFragment.navController
 
-        // Explicitly set the navigation graph
         navController.setGraph(R.navigation.navigation_main)
     }
 
     override fun onSupportNavigateUp(): Boolean {
-        // Obtain the NavHostFragment and NavController
         val navHostFragment = supportFragmentManager.findFragmentById(R.id.fragmentHost) as NavHostFragment
         val navController = navHostFragment.navController
 
-        // Navigate up with the navController or fall back to the default navigation behavior
         return NavigationUI.navigateUp(navController, null) || super.onSupportNavigateUp()
     }
 }
