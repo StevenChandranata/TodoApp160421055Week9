@@ -5,6 +5,7 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import com.example.todoapp160421055.model.Todo
 import com.example.todoapp160421055.model.TodoDatabase
+import com.example.todoapp160421055.util.buildDb
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -22,21 +23,22 @@ class ListTodoViewModel(application: Application)
     override val coroutineContext: CoroutineContext
         get() = job + Dispatchers.IO
     fun refresh() {
-        loadingLD.postValue(true)
-        todoLoadErrorLD.postValue(false)
-
+        loadingLD.value = true
+        todoLoadErrorLD.value = false
         launch {
-            val db = TodoDatabase.buildDatabase(getApplication())
+            val db = TodoDatabase.buildDatabase(
+                getApplication()
+            )
 
             todoLD.postValue(db.todoDao().selectAllTodo())
-
             loadingLD.postValue(false)
         }
     }
 
+
     fun clearTask(todo: Todo) {
         launch {
-            val db = TodoDatabase.buildDatabase(getApplication())
+            val db = buildDb(getApplication())
 
             db.todoDao().deleteTodo(todo)
 
