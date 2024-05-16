@@ -1,4 +1,4 @@
-package com.example.todoapp160421097.view
+package com.example.todoapp160421055.view
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -9,10 +9,8 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.todoapp160421097.R
-import com.example.todoapp160421097.databinding.FragmentTodoListBinding
-import com.example.todoapp160421097.viewmodel.ListTodoViewModel
-
+import com.example.todoapp160421055.databinding.FragmentTodoListBinding
+import com.example.todoapp160421055.viewmodel.ListTodoViewModel
 class TodoListFragment : Fragment() {
     private lateinit var binding: FragmentTodoListBinding
     private lateinit var viewModel: ListTodoViewModel

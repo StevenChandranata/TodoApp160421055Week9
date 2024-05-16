@@ -1,10 +1,9 @@
-package com.example.todoapp160421097.viewmodel
+package com.example.todoapp160421055.viewmodel
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.MutableLiveData
-import com.example.todoapp160421097.model.Todo
-import com.example.todoapp160421097.model.TodoDatabase
+import com.example.todoapp160421055.model.Todo
+import com.example.todoapp160421055.model.TodoDatabase
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job

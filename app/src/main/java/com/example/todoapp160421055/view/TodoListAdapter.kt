@@ -1,11 +1,10 @@
-package com.example.todoapp160421097.view
+package com.example.todoapp160421055.view
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.example.todoapp160421097.databinding.TodoItemLayoutBinding
-import com.example.todoapp160421097.model.Todo
-
+import com.example.todoapp160421055.databinding.TodoItemLayoutBinding
+import com.example.todoapp160421055.model.Todo
 class TodoListAdapter(
     val todoList:ArrayList<Todo>,
     val adapterOnClick : (Todo) -> Unit)

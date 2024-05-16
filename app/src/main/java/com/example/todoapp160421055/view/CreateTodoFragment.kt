@@ -1,4 +1,4 @@
-package com.example.todoapp160421097.view
+package com.example.todoapp160421055.view
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -8,11 +8,9 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
-import com.example.todoapp160421097.R
-import com.example.todoapp160421097.databinding.FragmentCreateTodoBinding
-import com.example.todoapp160421097.model.Todo
-import com.example.todoapp160421097.viewmodel.DetailTodoViewModel
-
+import com.example.todoapp160421055.databinding.FragmentCreateTodoBinding
+import com.example.todoapp160421055.model.Todo
+import com.example.todoapp160421055.viewmodel.DetailTodoViewModel
 class CreateTodoFragment : Fragment() {
     private lateinit var binding: FragmentCreateTodoBinding
     private lateinit var viewModel: DetailTodoViewModel

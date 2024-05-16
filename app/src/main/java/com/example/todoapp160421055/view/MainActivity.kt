@@ -1,12 +1,11 @@
-package com.example.todoapp160421097.view
+package com.example.todoapp160421055.view
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.NavigationUI
-import com.example.todoapp160421097.R
-import com.example.todoapp160421097.databinding.ActivityMainBinding
-
+import com.example.todoapp160421055.R
+import com.example.todoapp160421055.databinding.ActivityMainBinding
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
 
