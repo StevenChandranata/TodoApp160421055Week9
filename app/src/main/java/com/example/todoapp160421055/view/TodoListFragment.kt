@@ -14,8 +14,8 @@ import com.example.todoapp160421055.viewmodel.ListTodoViewModel
 class TodoListFragment : Fragment() {
     private lateinit var binding: FragmentTodoListBinding
     private lateinit var viewModel: ListTodoViewModel
-    private val todoListAdapter  = TodoListAdapter(arrayListOf(),
-        { item -> viewModel.clearTask(item) })
+    private val todoListAdapter  = TodoListAdapter(arrayListOf(), { item -> viewModel.clearTask(item);
+        viewModel.markAsDone(item.uuid)}) //untuk menjalankan function markAsDone untuk menentukan task sudah selesai atau belum sesuai uuid
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

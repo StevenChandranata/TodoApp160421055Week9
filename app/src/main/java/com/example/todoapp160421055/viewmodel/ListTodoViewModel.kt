@@ -23,15 +23,21 @@ class ListTodoViewModel(application: Application)
     override val coroutineContext: CoroutineContext
         get() = job + Dispatchers.IO
     fun refresh() {
-        loadingLD.value = true
-        todoLoadErrorLD.value = false
-        launch {
-            val db = TodoDatabase.buildDatabase(
-                getApplication()
-            )
-
-            todoLD.postValue(db.todoDao().selectAllTodo())
+        loadingLD.postValue(true)
+        todoLoadErrorLD.postValue(false)
+        launch(Dispatchers.IO) {
+            val db = TodoDatabase.buildDatabase(getApplication())
+            val pendingTodos = db.todoDao().selectPendingTodo()
+            todoLD.postValue(pendingTodos) // Memperbarui LiveData
             loadingLD.postValue(false)
+        }
+    }
+
+    fun markAsDone(todoId: Int) {
+        launch(Dispatchers.IO) {
+            val db = TodoDatabase.buildDatabase(getApplication())
+            db.todoDao().markAsDone(todoId)
+            refresh() // untuk refresh list dari task yang ditampilkan
         }
     }
 
@@ -41,8 +47,7 @@ class ListTodoViewModel(application: Application)
             val db = buildDb(getApplication())
 
             db.todoDao().deleteTodo(todo)
-
-            todoLD.postValue(db.todoDao().selectAllTodo())
+            todoLD.postValue(db.todoDao().selectPendingTodo())
         }
     }
 

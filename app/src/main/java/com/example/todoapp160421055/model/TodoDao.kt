@@ -10,10 +10,12 @@ import androidx.room.Query
 interface TodoDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertAll(vararg todo:Todo)
-
+    @Query("UPDATE Todo SET is_done = 1 WHERE uuid = :id") //untuk mengupdate bahwa task telah selesai
+    fun markAsDone(id: Int)
+    @Query("SELECT * FROM Todo WHERE is_done = 0 ORDER BY priority DESC") //untuk menampilkan hanya task yang belum selesai
+    fun selectPendingTodo(): List<Todo>
     @Query("SELECT * FROM todo ORDER BY priority DESC")
     fun selectAllTodo(): List<Todo>
-
     @Query("SELECT * FROM todo WHERE uuid= :id")
     fun selectTodo(id:Int): Todo
 

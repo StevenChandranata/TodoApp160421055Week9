@@ -12,14 +12,10 @@ data class Todo(
     var notes:String,
     @ColumnInfo(name="priority")
     var priority:Int,
-    @ColumnInfo(name="is_done")
-    var isDone: Int = 0 // artinya isDone == false
-    // karena Room (bagian dari android jetpack yang digunakan untuk menyederhanakan  penggunaan SQLite dalam aplikasi Android) tidak mendukung tipe BOOLEAN,sehingga nilai boolean dibuat dalam bentuk INTEGER yang mana nilai 0 sebagai false dan nilai 1 sebagai true didalam database.
+    @ColumnInfo(name="is_done") // field yang diguanakan untuk menentukan task sudah atau belum selesai
+    var isDone: Int = 0 // untuk value awal bahwa task belum selesai
 )  {
     @PrimaryKey(autoGenerate = true)
     var uuid:Int =0
 
-    fun markAsDone() {
-        isDone = 1 //artinya isDone == True
-    }
 }
