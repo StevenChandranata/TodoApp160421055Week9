@@ -13,7 +13,9 @@ data class Todo(
     @ColumnInfo(name="priority")
     var priority:Int,
     @ColumnInfo(name="is_done") // field yang diguanakan untuk menentukan task sudah atau belum selesai
-    var isDone: Int = 0 // untuk value awal bahwa task belum selesai
+    var isDone: Int, // untuk value awal bahwa task belum selesai
+    @ColumnInfo(name="todo_date")
+    var todo_date:Int
 )  {
     @PrimaryKey(autoGenerate = true)
     var uuid:Int =0

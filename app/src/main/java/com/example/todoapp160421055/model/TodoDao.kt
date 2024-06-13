@@ -1,10 +1,12 @@
 package com.example.todoapp160421055.model
 
 import androidx.room.Dao
+import androidx.room.Database
 import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import androidx.room.RoomDatabase
 
 @Dao
 interface TodoDao {
@@ -22,6 +24,10 @@ interface TodoDao {
     @Query("UPDATE todo SET title=:title, notes=:notes, priority=:priority WHERE uuid = :id")
     fun update(title:String, notes:String, priority:Int, id:Int)
 
+    @Database(entities = arrayOf(Todo::class),version = 4)
+    abstract class TodoDatabase:RoomDatabase(){
+        abstract fun todoDao():TodoDao
+    }
     @Delete
     fun deleteTodo(todo:Todo)
 }

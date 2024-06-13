@@ -16,12 +16,10 @@ import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.content.ContextCompat
 import com.example.todoapp160421055.R
+
 import com.example.todoapp160421055.view.MainActivity
 
-class NotificationHelper(val context: Context,
-                         val activity: Activity
-
-) {
+class NotificationHelper(val context: Context) {
     private val CHANNEL_ID = "todo_channel_id"
     private val NOTIFICATION_ID = 1
 
@@ -44,16 +42,6 @@ class NotificationHelper(val context: Context,
 
     fun createNotification(title: String, message: String) {
         createNotificationChannel()
-        if (ContextCompat.checkSelfPermission(context, Manifest.permission.POST_NOTIFICATIONS)
-            != PackageManager.PERMISSION_GRANTED
-        ) {
-            ActivityCompat.requestPermissions(
-                activity,
-                arrayOf(Manifest.permission.POST_NOTIFICATIONS),
-                REQUEST_NOTIF
-            )
-            return
-        } else {
             val intent = Intent(context, MainActivity::class.java).apply {
                 flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
             }
@@ -65,21 +53,24 @@ class NotificationHelper(val context: Context,
                 .setLargeIcon(icon)
                 .setContentTitle(title)
                 .setContentText(message)
+
                 .setStyle(
                     NotificationCompat.BigPictureStyle()
                         .bigPicture(icon)
                         .bigLargeIcon(null)
                 )
+
                 .setContentIntent(pendingIntent)
+
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT)
                 .build()
+
             try {
                 NotificationManagerCompat.from(context)
                     .notify(NOTIFICATION_ID, notification)
-            } catch (e: SecurityException) {
+            } catch (e:SecurityException) {
                 Log.e("error", e.toString())
             }
-        }
     }
 }
 

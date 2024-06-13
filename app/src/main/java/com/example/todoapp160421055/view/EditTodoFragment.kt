@@ -17,13 +17,15 @@ import com.example.todoapp160421055.model.Todo
 import com.example.todoapp160421055.viewmodel.DetailTodoViewModel
 
 
-class EditTodoFragment : Fragment(),TodoSaveChangesClick,RadioClick  {
-    private lateinit var binding:FragmentEditTodoBinding
+class EditTodoFragment : Fragment(),TodoSaveChangesClick,RadioClick {
+    private lateinit var binding: FragmentEditTodoBinding
     private lateinit var viewModel: DetailTodoViewModel
 
-    override fun onCreateView(inflater: LayoutInflater, container:
-    ViewGroup?, savedInstanceState: Bundle?): View? {
-        binding = FragmentEditTodoBinding.inflate(inflater,container, false)
+    override fun onCreateView(
+        inflater: LayoutInflater, container:
+        ViewGroup?, savedInstanceState: Bundle?
+    ): View? {
+        binding = FragmentEditTodoBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -49,6 +51,7 @@ class EditTodoFragment : Fragment(),TodoSaveChangesClick,RadioClick  {
 //        }
 
     }
+
     fun observeViewModel() {
         viewModel.todoLD.observe(viewLifecycleOwner, Observer {
             binding.todo = it
@@ -65,15 +68,15 @@ class EditTodoFragment : Fragment(),TodoSaveChangesClick,RadioClick  {
 //
 //        })
     }
-    override fun onRadioClick(v: View, priority: Int, obj: Todo) {
-        obj.priority = priority
+    override fun onRadioClick(v: View) {
+        binding.todo!!.priority =
+            v.tag.toString().toInt()
     }
     override fun onTodoSaveChangesClick(v: View, obj: Todo) {
         viewModel.update(obj.title, obj.notes, obj.priority, obj.uuid)
         Toast.makeText(v.context, "Todo Updated", Toast.LENGTH_SHORT).show()
         Navigation.findNavController(v).popBackStack()
     }
-
 
 
 }

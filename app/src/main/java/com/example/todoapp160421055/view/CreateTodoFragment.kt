@@ -1,5 +1,6 @@
 package com.example.todoapp160421055.view
 
+import android.Manifest
 import android.content.pm.PackageManager
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -23,7 +24,7 @@ import com.example.todoapp160421055.util.NotificationHelper
 import com.example.todoapp160421055.viewmodel.DetailTodoViewModel
 import java.util.concurrent.TimeUnit
 
-class CreateTodoFragment : Fragment(), ButtonAddTodoClickListener,RadioClick {
+class CreateTodoFragment : Fragment(), TodoEditClick,RadioClick {
     private lateinit var binding: FragmentCreateTodoBinding
     private lateinit var viewModel: DetailTodoViewModel
     private lateinit var dataBinding:FragmentCreateTodoBinding
@@ -37,10 +38,32 @@ class CreateTodoFragment : Fragment(), ButtonAddTodoClickListener,RadioClick {
     }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel =ViewModelProvider(this)[DetailTodoViewModel::class.java]
-        dataBinding.todo = Todo("","",3,0)
-        dataBinding.listener = this
+        if (ActivityCompat.checkSelfPermission(
+                requireContext(),
+                Manifest.permission.POST_NOTIFICATIONS
+            ) !=
+            PackageManager.PERMISSION_GRANTED
+        ) {
+            ActivityCompat.requestPermissions(
+                requireActivity(),
+                arrayOf(Manifest.permission.POST_NOTIFICATIONS), NotificationHelper.REQUEST_NOTIF)
+        }
+        dataBinding.todo = Todo("", "", 3, 0,0)
+        dataBinding.addListener = this
         dataBinding.radioListener = this
+        viewModel = ViewModelProvider(this)[DetailTodoViewModel::class.java]
+
+//        binding.btnAdd.setOnClickListener {
+//            val workRequest = OneTimeWorkRequestBuilder<TodoWorker>()
+//                .setInitialDelay(30, TimeUnit.SECONDS)
+//                .setInputData(
+//                    workDataOf(
+//                        "title" to "Todo created",
+//                        "message" to "Stay focus"
+//                    ))
+//                .build()
+//            WorkManager.getInstance(requireContext()).enqueue(workRequest)
+
 
 //        binding.btnAdd.setOnClickListener {
 ////            var radio = view.findViewById<RadioButton>(binding.radioGroupPriority.checkedRadioButtonId)
@@ -81,33 +104,33 @@ class CreateTodoFragment : Fragment(), ButtonAddTodoClickListener,RadioClick {
         if(requestCode ==NotificationHelper.REQUEST_NOTIF) {
             if(grantResults.isNotEmpty() && grantResults[0] ==
                 PackageManager.PERMISSION_GRANTED) {
-                NotificationHelper(requireContext(), requireActivity())
+                NotificationHelper(requireContext())
                     .createNotification("Todo Created",
                         "A new todo has been created! Stay focus!")
             }
         }
     }
-
-    override fun onButtonAddTodo(v: View) {
-        val list = listOf(dataBinding.todo)
+    override fun onTodoEditClick(v: View) {
+        val workRequest = OneTimeWorkRequestBuilder<TodoWorker>()
+            .setInitialDelay(30, TimeUnit.SECONDS)
+            .setInputData(
+                workDataOf(
+                    "title" to "Todo created",
+                    "message" to "Stay focus"
+                ))
+            .build()
+        WorkManager.getInstance(requireContext()).enqueue(workRequest)
+        val list = listOf(dataBinding.todo!!)
         viewModel.addTodo(list)
         Toast.makeText(v.context,"Data Added",Toast.LENGTH_LONG).show()
-            TodoWorker.activity = requireActivity()
-            val workRequest = OneTimeWorkRequestBuilder<TodoWorker>()
-                .setInitialDelay(30, TimeUnit.SECONDS)
-                .setInputData(
-                    workDataOf(
-                        "title" to "Todo created",
-                        "message" to "Stay focus"
-                    ))
-                .build()
-            WorkManager.getInstance(requireContext()).enqueue(workRequest)
-            Navigation.findNavController(v).popBackStack()
+        Navigation.findNavController(v).popBackStack()
     }
 
-    override fun onRadioClick(v: View, priority: Int, obj: Todo) {
-        obj.priority = priority
+    override fun onRadioClick(v: View) {
+        binding.todo!!.priority =
+            v.tag.toString().toInt()
     }
+
 
 
 }
